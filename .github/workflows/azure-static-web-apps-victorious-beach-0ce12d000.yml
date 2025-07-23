@@ -1,4 +1,3 @@
-
 name: Build and Deploy to Azure App Service using ACR
 
 on:
@@ -12,6 +11,16 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies and build React app
+        run: |
+          npm install
+          npm run build
 
       - name: Log in to ACR
         run: echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.ACR_NAME }} -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
